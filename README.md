@@ -31,150 +31,127 @@ A log analytics workbook that will help admins estimate the B2B guest MAU as wel
       "name": "text - 2"
     },
     {
-      "type": 1,
+      "type": 12,
       "content": {
-        "json": "### Filters"
-      },
-      "name": "text - 1"
-    },
-    {
-      "type": 9,
-      "content": {
-        "version": "KqlParameterItem/1.0",
-        "parameters": [
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "title": "Filters",
+        "items": [
           {
-            "id": "bf9b3709-b9e1-4e9a-a483-862c2b7237cb",
-            "version": "KqlParameterItem/1.0",
-            "name": "Workbook",
-            "type": 5,
-            "isRequired": true,
-            "value": "/subscriptions/ab48f397-fc82-4634-aa52-62dd91b3ebaa/resourceGroups/Woodgrove-RG/providers/Microsoft.OperationalInsights/workspaces/Woodgrove-LogAnalyiticsWorkspace",
-            "typeSettings": {
-              "additionalResourceOptions": []
-            },
-            "timeContext": {
-              "durationMs": 86400000
-            }
-          },
-          {
-            "id": "5da9c644-d229-47a0-8a12-07856b967944",
-            "version": "KqlParameterItem/1.0",
-            "name": "Subscription",
-            "type": 6,
-            "isRequired": true,
-            "value": "/subscriptions/ab48f397-fc82-4634-aa52-62dd91b3ebaa",
-            "typeSettings": {
-              "additionalResourceOptions": [],
-              "includeAll": false
-            },
-            "timeContext": {
-              "durationMs": 86400000
-            }
-          }
-        ],
-        "style": "pills",
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces"
-      },
-      "name": "parameters - 2"
-    },
-    {
-      "type": 9,
-      "content": {
-        "version": "KqlParameterItem/1.0",
-        "parameters": [
-          {
-            "id": "4dde6989-e1be-4aa7-8ecd-110c5b71e289",
-            "version": "KqlParameterItem/1.0",
-            "name": "Time",
-            "type": 4,
-            "isRequired": true,
-            "value": {
-              "durationMs": 15721200000,
-              "endTime": "2022-06-01T22:13:00.000Z"
-            },
-            "typeSettings": {
-              "selectableValues": [
+            "type": 9,
+            "content": {
+              "version": "KqlParameterItem/1.0",
+              "parameters": [
                 {
-                  "durationMs": 2592000000
-                },
-                {
-                  "durationMs": 5184000000
-                },
-                {
-                  "durationMs": 7776000000
+                  "id": "bf9b3709-b9e1-4e9a-a483-862c2b7237cb",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "Workspace",
+                  "type": 5,
+                  "isRequired": true,
+                  "value": "/subscriptions/ab48f397-fc82-4634-aa52-62dd91b3ebaa/resourceGroups/Woodgrove-RG/providers/Microsoft.OperationalInsights/workspaces/Woodgrove-LogAnalyiticsWorkspace",
+                  "typeSettings": {
+                    "additionalResourceOptions": []
+                  },
+                  "timeContext": {
+                    "durationMs": 86400000
+                  }
                 }
               ],
-              "allowCustom": true
+              "style": "pills",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
             },
-            "timeContext": {
-              "durationMs": 86400000
-            }
+            "name": "parameters - 2"
           },
           {
-            "id": "5fb67ab7-a69b-4ade-8942-8a2373f85412",
-            "version": "KqlParameterItem/1.0",
-            "name": "License",
-            "type": 2,
-            "isRequired": true,
-            "isGlobal": true,
-            "value": "P1",
-            "typeSettings": {
-              "additionalResourceOptions": [],
-              "showDefault": false
-            },
-            "jsonData": "[\r\n    { \"value\":\"P1\", \"label\":\"Premium P1\" },\r\n    { \"value\":\"P2\", \"label\":\"Premium P2\" }\r\n]",
-            "timeContext": {
-              "durationMs": 86400000
-            }
-          },
-          {
-            "id": "184fc355-08ba-4296-aaf8-9329096a1816",
-            "version": "KqlParameterItem/1.0",
-            "name": "AuthMethod",
-            "type": 2,
-            "multiSelect": true,
-            "quote": "'",
-            "delimiter": ",",
-            "value": [
-              "value::all"
-            ],
-            "typeSettings": {
-              "additionalResourceOptions": [
-                "value::all"
+            "type": 9,
+            "content": {
+              "version": "KqlParameterItem/1.0",
+              "parameters": [
+                {
+                  "id": "4dde6989-e1be-4aa7-8ecd-110c5b71e289",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "Time",
+                  "type": 4,
+                  "isRequired": true,
+                  "typeSettings": {
+                    "selectableValues": [],
+                    "allowCustom": true
+                  },
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "label": "Date range"
+                },
+                {
+                  "id": "5fb67ab7-a69b-4ade-8942-8a2373f85412",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "License",
+                  "type": 2,
+                  "isRequired": true,
+                  "isGlobal": true,
+                  "value": "P1",
+                  "typeSettings": {
+                    "additionalResourceOptions": [],
+                    "showDefault": false
+                  },
+                  "jsonData": "[\r\n    { \"value\":\"P1\", \"label\":\"Azure AD Premium P1\" },\r\n    { \"value\":\"P2\", \"label\":\"Azure AD Premium P2\" }\r\n]",
+                  "timeContext": {
+                    "durationMs": 86400000
+                  }
+                },
+                {
+                  "id": "184fc355-08ba-4296-aaf8-9329096a1816",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "AuthMethod",
+                  "type": 2,
+                  "multiSelect": true,
+                  "quote": "'",
+                  "delimiter": ",",
+                  "value": [
+                    "value::all"
+                  ],
+                  "typeSettings": {
+                    "additionalResourceOptions": [
+                      "value::all"
+                    ],
+                    "showDefault": false
+                  },
+                  "jsonData": "[\r\n    { \"value\":\"Text message\", \"label\":\"Text Message\" },\r\n    { \"value\":\"Phone call approval (Authentication phone)\", \"label\":\"Phone Call Approval\" }\r\n]",
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "label": "Auth method"
+                },
+                {
+                  "id": "2aa7874b-aacc-454d-8e76-d74a35346718",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "Username",
+                  "label": "UserPrincipalName",
+                  "type": 1,
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "value": ""
+                }
               ],
-              "showDefault": false
+              "style": "pills",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
             },
-            "jsonData": "[\r\n    { \"value\":\"Text message\", \"label\":\"Text Message\" },\r\n    { \"value\":\"Phone call approval (Authentication phone)\", \"label\":\"Phone Call Approval\" }\r\n]",
-            "timeContext": {
-              "durationMs": 86400000
-            },
-            "label": "Auth method"
+            "name": "parameters - 3"
           },
           {
-            "id": "2aa7874b-aacc-454d-8e76-d74a35346718",
-            "version": "KqlParameterItem/1.0",
-            "name": "Username",
-            "label": "UserPrincipalName",
             "type": 1,
-            "timeContext": {
-              "durationMs": 86400000
+            "content": {
+              "json": "For the most accurate report, please use a custom time scope to ensure that all days of a month are counted. Also consider your log retention policy. As logs fall beyond the retention timeframe, they will stop being counted in this report."
             },
-            "value": ""
+            "name": "text - 8"
           }
         ],
-        "style": "pills",
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces"
+        "exportParameters": true
       },
-      "name": "parameters - 3"
-    },
-    {
-      "type": 1,
-      "content": {
-        "json": "For the most accurate report, please use a custom time scope to ensure that all days of a month are counted. Also consider your log retention policy. As logs fall beyond the retention timeframe, they will stop being counted in this report."
-      },
-      "name": "text - 8"
+      "name": "Group - Filters"
     },
     {
       "type": 3,
@@ -206,7 +183,8 @@ A log analytics workbook that will help admins estimate the B2B guest MAU as wel
             }
           },
           "showBorder": false,
-          "sortCriteriaField": "print_1"
+          "sortCriteriaField": "print_1",
+          "sortOrderField": 1
         }
       },
       "showPin": true,
@@ -215,135 +193,160 @@ A log analytics workbook that will help admins estimate the B2B guest MAU as wel
     {
       "type": 1,
       "content": {
-        "json": "You can reduce SMS/Voice costs by enabling the [MFA Registration Campaign](https://docs.microsoft.com/en-us/azure/active-directory/authentication/how-to-mfa-registration-campaign) for guests."
+        "json": "### Filter not set\r\nTo view additional charts that display trends over time, please set a custom date range in the filters. Ensure that all days of a month are counted to get an accurate report. Also consider your log retention policy. As logs fall beyond the retention timeframe, they will stop being counted in this report."
+      },
+      "conditionalVisibility": {
+        "parameterName": "Time",
+        "comparison": "isEqualTo"
       },
       "name": "text - 4"
     },
     {
-      "type": 3,
+      "type": 12,
       "content": {
-        "version": "KqlItem/1.0",
-        "query": "SigninLogs\r\n| where UserType == \"Guest\"\r\n| extend MonthGenerated = startofmonth(TimeGenerated)\r\n| project MonthGenerated,UserId\r\n| distinct UserId,MonthGenerated\r\n| make-series distinctUserCount=count() default=0 on MonthGenerated from (startofmonth({Time:start})) to (startofmonth(now()) - 1h) step 1d\r\n| mv-expand distinctUserCount to typeof(int), MonthGenerated to typeof(datetime)\r\n| project distinctUserCount, MonthGenerated\r\n| summarize Value=sum(distinctUserCount) by dateStr=format_datetime(startofmonth(MonthGenerated), 'MM/yyyy')\r\n",
-        "size": 0,
-        "showAnalytics": true,
-        "title": "Guest Monthly Active Users trends",
-        "timeContextFromParameter": "Time",
-        "showRefreshButton": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "visualization": "linechart",
-        "chartSettings": {
-          "xAxis": "dateStr",
-          "group": "Grouping",
-          "createOtherGroup": null,
-          "showMetrics": false
-        }
-      },
-      "customWidth": "70",
-      "showPin": true,
-      "name": "query - 6"
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "SigninLogs\r\n| where UserType == \"Guest\"\r\n| extend MonthGenerated = startofmonth(TimeGenerated)\r\n| project MonthGenerated,UserId\r\n| distinct UserId,MonthGenerated\r\n| make-series distinctUserCount=count() default=0 on MonthGenerated from (startofmonth({Time:start})) to (startofmonth(now()) - 1h) step 1d\r\n| mv-expand distinctUserCount to typeof(int), MonthGenerated to typeof(datetime)\r\n| project distinctUserCount, MonthGenerated\r\n| summarize MAU=sum(distinctUserCount) by Month=format_datetime(startofmonth(MonthGenerated), 'MM/yyyy')\r\n",
-        "size": 0,
-        "timeContextFromParameter": "Time",
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "visualization": "table",
-        "gridSettings": {
-          "formatters": [
-            {
-              "columnMatch": "Month",
-              "formatter": 1,
-              "formatOptions": {
-                "customColumnWidthSetting": "50%"
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "items": [
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "SigninLogs\r\n| where UserType == \"Guest\"\r\n| extend MonthGenerated = startofmonth(TimeGenerated)\r\n| project MonthGenerated,UserId\r\n| distinct UserId,MonthGenerated\r\n| make-series distinctUserCount=count() default=0 on MonthGenerated from (startofmonth({Time:start})) to (startofmonth(now()) - 1h) step 1d\r\n| mv-expand distinctUserCount to typeof(int), MonthGenerated to typeof(datetime)\r\n| project distinctUserCount, MonthGenerated\r\n| summarize Value=sum(distinctUserCount) by dateStr=format_datetime(startofmonth(MonthGenerated), 'MM/yyyy')\r\n",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "Guest Monthly Active Users trends",
+              "timeContextFromParameter": "Time",
+              "showRefreshButton": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "linechart",
+              "chartSettings": {
+                "xAxis": "dateStr",
+                "group": "Grouping",
+                "createOtherGroup": null,
+                "showMetrics": false
               }
             },
-            {
-              "columnMatch": "MAU",
-              "formatter": 1,
-              "formatOptions": {
-                "customColumnWidthSetting": "50%"
+            "customWidth": "70",
+            "showPin": true,
+            "name": "query - 6"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "SigninLogs\r\n| where UserType == \"Guest\"\r\n| extend MonthGenerated = startofmonth(TimeGenerated)\r\n| project MonthGenerated,UserId\r\n| distinct UserId,MonthGenerated\r\n| make-series distinctUserCount=count() default=0 on MonthGenerated from (startofmonth({Time:start})) to (startofmonth(now()) - 1h) step 1d\r\n| mv-expand distinctUserCount to typeof(int), MonthGenerated to typeof(datetime)\r\n| project distinctUserCount, MonthGenerated\r\n| summarize MAU=sum(distinctUserCount) by Month=format_datetime(startofmonth(MonthGenerated), 'MM/yyyy')\r\n",
+              "size": 0,
+              "timeContextFromParameter": "Time",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "table",
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "Month",
+                    "formatter": 1,
+                    "formatOptions": {
+                      "customColumnWidthSetting": "50%"
+                    }
+                  },
+                  {
+                    "columnMatch": "MAU",
+                    "formatter": 1,
+                    "formatOptions": {
+                      "customColumnWidthSetting": "50%"
+                    }
+                  }
+                ]
               }
-            }
-          ]
-        }
-      },
-      "customWidth": "30",
-      "name": "query - 9"
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "SigninLogs\r\n| where UserType == \"Guest\"\r\n| where AuthenticationRequirement contains \"multifactor\"\r\n| mv-expand ParsedFields=parse_json(AuthenticationDetails)\r\n    |extend AuthenticationMethod = ParsedFields.authenticationMethod\r\n    |extend AuthMethod = tostring(AuthenticationMethod)\r\n| where AuthMethod in ({AuthMethod}) or '*' in ({AuthMethod})\r\n| where \"{Username:escape}\" == \"All users\" or UserDisplayName contains \"{Username:escape}\"\r\n| extend MonthGenerated = startofmonth(TimeGenerated)\r\n| project AuthMethod, MonthGenerated, CorrelationId\r\n| distinct AuthMethod, MonthGenerated, CorrelationId\r\n| make-series TelephonyCount=count() default=0 on MonthGenerated from (startofmonth({Time:start})) to (startofmonth(now()) - 1h) step 1d\r\n| mv-expand TelephonyCount to typeof(int), MonthGenerated to typeof(datetime)\r\n| extend Grouping = \"All\" //Only used for connecting the dots in the line graph visualization\r\n| summarize Telephony=sum(TelephonyCount) by dateStr=format_datetime(startofmonth(MonthGenerated), 'MM/yyyy'), Grouping\r\n",
-        "size": 0,
-        "showAnalytics": true,
-        "title": "Guest SMS/Voice usage",
-        "timeContextFromParameter": "Time",
-        "showRefreshButton": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "visualization": "linechart",
-        "chartSettings": {
-          "xAxis": "dateStr",
-          "group": "Grouping",
-          "createOtherGroup": null,
-          "showMetrics": false,
-          "xSettings": {
-            "numberFormatSettings": {
-              "unit": 0,
-              "options": {
-                "style": "decimal",
-                "useGrouping": true
+            },
+            "customWidth": "30",
+            "name": "query - 9"
+          },
+          {
+            "type": 1,
+            "content": {
+              "json": "[Telephony-based authentication methods such as SMS/Voice are less secure](https://techcommunity.microsoft.com/t5/azure-active-directory-identity/it-s-time-to-hang-up-on-phone-transports-for-authentication/ba-p/1751752) than available alternatives like the Microsoft Authenticator app. You can help upgrade users to the Microsoft Authenticator App by enabling the [MFA Registration Campaign](https://docs.microsoft.com/en-us/azure/active-directory/authentication/how-to-mfa-registration-campaign). This can also help reduce additional telephony-based costs."
+            },
+            "name": "text - 4"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "SigninLogs\r\n| where UserType == \"Guest\"\r\n| where AuthenticationRequirement contains \"multifactor\"\r\n| mv-expand ParsedFields=parse_json(AuthenticationDetails)\r\n    |extend AuthenticationMethod = ParsedFields.authenticationMethod\r\n    |extend AuthMethod = tostring(AuthenticationMethod)\r\n| where AuthMethod in ({AuthMethod}) or '*' in ({AuthMethod})\r\n| where \"{Username:escape}\" == \"All users\" or UserDisplayName contains \"{Username:escape}\"\r\n| extend MonthGenerated = startofmonth(TimeGenerated)\r\n| project AuthMethod, MonthGenerated, CorrelationId\r\n| distinct AuthMethod, MonthGenerated, CorrelationId\r\n| make-series TelephonyCount=count() default=0 on MonthGenerated from (startofmonth({Time:start})) to (startofmonth(now()) - 1h) step 1d\r\n| mv-expand TelephonyCount to typeof(int), MonthGenerated to typeof(datetime)\r\n| extend Grouping = \"All\" //Only used for connecting the dots in the line graph visualization\r\n| summarize Telephony=sum(TelephonyCount) by dateStr=format_datetime(startofmonth(MonthGenerated), 'MM/yyyy'), Grouping\r\n",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "Guest SMS/Voice usage",
+              "timeContextFromParameter": "Time",
+              "showRefreshButton": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "linechart",
+              "chartSettings": {
+                "xAxis": "dateStr",
+                "group": "Grouping",
+                "createOtherGroup": null,
+                "showMetrics": false,
+                "xSettings": {
+                  "numberFormatSettings": {
+                    "unit": 0,
+                    "options": {
+                      "style": "decimal",
+                      "useGrouping": true
+                    }
+                  }
+                }
               }
-            }
+            },
+            "customWidth": "70",
+            "showPin": true,
+            "name": "query - 7"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "SigninLogs\r\n| where UserType == \"Guest\"\r\n| where AuthenticationRequirement contains \"multifactor\"\r\n| mv-expand ParsedFields=parse_json(AuthenticationDetails)\r\n    |extend AuthenticationMethod = ParsedFields.authenticationMethod\r\n    |extend AuthMethod = tostring(AuthenticationMethod)\r\n| where AuthMethod in ({AuthMethod}) or '*' in ({AuthMethod})\r\n| where \"{Username:escape}\" == \"All users\" or UserDisplayName contains \"{Username:escape}\"\r\n| extend MonthGenerated = startofmonth(TimeGenerated)\r\n| project AuthMethod, MonthGenerated, CorrelationId\r\n| distinct AuthMethod, MonthGenerated, CorrelationId\r\n| make-series TelephonyCount=count() default=0 on MonthGenerated from (startofmonth({Time:start})) to (startofmonth(now()) - 1h) step 1d\r\n| mv-expand TelephonyCount to typeof(int), MonthGenerated to typeof(datetime)\r\n| summarize Telephony=sum(TelephonyCount) by Month=format_datetime(startofmonth(MonthGenerated), 'MM/yyyy')",
+              "size": 0,
+              "timeContextFromParameter": "Time",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "Month",
+                    "formatter": 1,
+                    "formatOptions": {
+                      "customColumnWidthSetting": "50%"
+                    }
+                  },
+                  {
+                    "columnMatch": "TelephonyMFA",
+                    "formatter": 1,
+                    "formatOptions": {
+                      "customColumnWidthSetting": "50%"
+                    }
+                  }
+                ],
+                "labelSettings": [
+                  {
+                    "columnId": "Telephony",
+                    "label": "SMS/Voice"
+                  }
+                ]
+              }
+            },
+            "customWidth": "30",
+            "name": "query - 10"
           }
-        }
+        ]
       },
-      "customWidth": "70",
-      "showPin": true,
-      "name": "query - 7"
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "SigninLogs\r\n| where UserType == \"Guest\"\r\n| where AuthenticationRequirement contains \"multifactor\"\r\n| mv-expand ParsedFields=parse_json(AuthenticationDetails)\r\n    |extend AuthenticationMethod = ParsedFields.authenticationMethod\r\n    |extend AuthMethod = tostring(AuthenticationMethod)\r\n| where AuthMethod in ({AuthMethod}) or '*' in ({AuthMethod})\r\n| where \"{Username:escape}\" == \"All users\" or UserDisplayName contains \"{Username:escape}\"\r\n| extend MonthGenerated = startofmonth(TimeGenerated)\r\n| project AuthMethod, MonthGenerated, CorrelationId\r\n| distinct AuthMethod, MonthGenerated, CorrelationId\r\n| make-series TelephonyCount=count() default=0 on MonthGenerated from (startofmonth({Time:start})) to (startofmonth(now()) - 1h) step 1d\r\n| mv-expand TelephonyCount to typeof(int), MonthGenerated to typeof(datetime)\r\n| summarize Telephony=sum(TelephonyCount) by Month=format_datetime(startofmonth(MonthGenerated), 'MM/yyyy')",
-        "size": 0,
-        "timeContextFromParameter": "Time",
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "gridSettings": {
-          "formatters": [
-            {
-              "columnMatch": "Month",
-              "formatter": 1,
-              "formatOptions": {
-                "customColumnWidthSetting": "50%"
-              }
-            },
-            {
-              "columnMatch": "TelephonyMFA",
-              "formatter": 1,
-              "formatOptions": {
-                "customColumnWidthSetting": "50%"
-              }
-            }
-          ],
-          "labelSettings": [
-            {
-              "columnId": "Telephony",
-              "label": "SMS/Voice"
-            }
-          ]
-        }
+      "conditionalVisibility": {
+        "parameterName": "Time",
+        "comparison": "isNotEqualTo"
       },
-      "customWidth": "30",
-      "name": "query - 10"
+      "name": "group - trends over time"
     }
   ],
   "fallbackResourceIds": [
