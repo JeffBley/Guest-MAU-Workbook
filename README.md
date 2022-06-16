@@ -48,9 +48,12 @@ A log analytics workbook that will help admins estimate the B2B guest MAU as wel
                   "name": "Workspace",
                   "type": 5,
                   "isRequired": true,
-                  "value": "/subscriptions/ab48f397-fc82-4634-aa52-62dd91b3ebaa/resourceGroups/Woodgrove-RG/providers/Microsoft.OperationalInsights/workspaces/Woodgrove-LogAnalyiticsWorkspace",
+                  "value": null,
                   "typeSettings": {
-                    "additionalResourceOptions": []
+                    "additionalResourceOptions": [
+                      "value::1"
+                    ],
+                    "showDefault": false
                   },
                   "timeContext": {
                     "durationMs": 86400000
@@ -348,9 +351,6 @@ A log analytics workbook that will help admins estimate the B2B guest MAU as wel
       },
       "name": "group - trends over time"
     }
-  ],
-  "fallbackResourceIds": [
-    "/subscriptions/ab48f397-fc82-4634-aa52-62dd91b3ebaa/resourceGroups/Woodgrove-RG/providers/Microsoft.OperationalInsights/workspaces/Woodgrove-LogAnalyiticsWorkspace"
   ],
   "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
 }
