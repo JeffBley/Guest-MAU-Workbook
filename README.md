@@ -48,7 +48,7 @@ A log analytics workbook that will help admins estimate the B2B guest MAU as wel
                   "name": "Workspace",
                   "type": 5,
                   "isRequired": true,
-                  "value": null,
+                  "value": "/subscriptions/99978de7-8eba-41b5-ab08-4a77599bb107/resourceGroups/ApertureScienceRG/providers/Microsoft.OperationalInsights/workspaces/Aperture-Science-LA",
                   "typeSettings": {
                     "additionalResourceOptions": [
                       "value::1"
@@ -75,16 +75,36 @@ A log analytics workbook that will help admins estimate the B2B guest MAU as wel
                   "id": "4dde6989-e1be-4aa7-8ecd-110c5b71e289",
                   "version": "KqlParameterItem/1.0",
                   "name": "Time",
+                  "label": "Date range",
                   "type": 4,
                   "isRequired": true,
                   "typeSettings": {
-                    "selectableValues": [],
+                    "selectableValues": [
+                      {
+                        "durationMs": 604800000
+                      },
+                      {
+                        "durationMs": 1209600000
+                      },
+                      {
+                        "durationMs": 2592000000
+                      },
+                      {
+                        "durationMs": 5184000000
+                      },
+                      {
+                        "durationMs": 7776000000
+                      }
+                    ],
                     "allowCustom": true
                   },
                   "timeContext": {
                     "durationMs": 86400000
                   },
-                  "label": "Date range"
+                  "value": {
+                    "durationMs": 46828800000,
+                    "endTime": "2023-10-25T18:37:00.000Z"
+                  }
                 },
                 {
                   "id": "5fb67ab7-a69b-4ade-8942-8a2373f85412",
@@ -93,15 +113,15 @@ A log analytics workbook that will help admins estimate the B2B guest MAU as wel
                   "type": 2,
                   "isRequired": true,
                   "isGlobal": true,
-                  "value": "P1",
                   "typeSettings": {
                     "additionalResourceOptions": [],
                     "showDefault": false
                   },
-                  "jsonData": "[\r\n    { \"value\":\"P1\", \"label\":\"Azure AD Premium P1\" },\r\n    { \"value\":\"P2\", \"label\":\"Azure AD Premium P2\" }\r\n]",
+                  "jsonData": "[\r\n    { \"value\":\"P1\", \"label\":\"Entra ID Premium P1\" },\r\n    { \"value\":\"P2\", \"label\":\"Entra ID Premium P2\" },\r\n    { \"value\":\"EIG\", \"label\":\"Entra ID Governance - External\" }\r\n]",
                   "timeContext": {
                     "durationMs": 86400000
-                  }
+                  },
+                  "value": "P2"
                 },
                 {
                   "id": "184fc355-08ba-4296-aaf8-9329096a1816",
@@ -160,7 +180,7 @@ A log analytics workbook that will help admins estimate the B2B guest MAU as wel
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "let mau = toscalar(SigninLogs\r\n| where TimeGenerated < startofmonth(now())\r\n| where TimeGenerated >= startofmonth(datetime_add('month',-1,now()))\r\n| where UserType == \"Guest\"\r\n| project UserId\r\n| distinct UserId\r\n| count);\r\nlet phone = toscalar(SigninLogs\r\n| where TimeGenerated < startofmonth(now())\r\n| where TimeGenerated >= startofmonth(datetime_add('month',-1,now()))\r\n| where UserType == \"Guest\"\r\n| where AuthenticationRequirement contains \"multifactor\"\r\n| mv-expand ParsedFields=parse_json(AuthenticationDetails)\r\n    |extend AuthenticationMethod = ParsedFields.authenticationMethod\r\n    |extend AuthMethod = tostring(AuthenticationMethod)\r\n| where AuthMethod in ({AuthMethod}) or '*' in ({AuthMethod})\r\n| distinct CorrelationId\r\n| count);\r\nlet price = iff(\"{License}\" == 'P1', 0.00325, 0.01625);\r\nlet maucost=max_of(0,mau - 50000) * price;\r\nlet phonecost=phone * 0.03;\r\nlet totalcost= phonecost + maucost;\r\n\r\nlet View_1 = view () { print tostring(mau),\"MAU\" };\r\nlet View_2 = view () { print strcat(\"$\",tostring(maucost)),\"MAU cost (USD)\" };\r\nlet View_3 = view () { print tostring(phone),\"SMS/Voice\" };\r\nlet View_4 = view () { print strcat(\"$\",tostring(phonecost)),\"SMS/Voice cost (USD)\" };\r\nlet View_5 = view () { print strcat(\"$\",tostring(totalcost)),\"Total cost (USD)\" };\r\nunion withsource=TableName View_1, View_2, View_3, View_4, View_5\r\n\r\n",
+        "query": "let mau = toscalar(SigninLogs\r\n| where TimeGenerated < startofmonth(now())\r\n| where TimeGenerated >= startofmonth(datetime_add('month',-1,now()))\r\n| where CrossTenantAccessType in (\"b2bCollaboration\",\"directconnect\",\"passthrough\")\r\n| project UserId\r\n| distinct UserId\r\n| count);\r\nlet phone = toscalar(SigninLogs\r\n| where TimeGenerated < startofmonth(now())\r\n| where TimeGenerated >= startofmonth(datetime_add('month',-1,now()))\r\n| where CrossTenantAccessType in (\"b2bCollaboration\",\"directconnect\",\"passthrough\")\r\n| where AuthenticationRequirement contains \"multifactor\"\r\n| mv-expand ParsedFields=parse_json(AuthenticationDetails)\r\n    |extend AuthenticationMethod = ParsedFields.authenticationMethod\r\n    |extend AuthMethod = tostring(AuthenticationMethod)\r\n| where AuthMethod in ({AuthMethod}) or '*' in ({AuthMethod})\r\n| distinct CorrelationId\r\n| count);\r\nlet price = case(\"{License}\" == 'EIG', 0.75, \"{License}\" == 'P1', 0.00325, 0.01625);\r\nlet maucost= iff(\"{License}\" == 'EIG', mau * price, max_of(0,mau - 50000) * price);\r\nlet phonecost=phone * 0.03;\r\nlet totalcost= phonecost + maucost;\r\n\r\nlet View_1 = view () { print tostring(mau),\"MAU\" };\r\nlet View_2 = view () { print strcat(\"$\",tostring(maucost)),\"MAU cost (USD)\" };\r\nlet View_3 = view () { print tostring(phone),\"SMS/Voice\" };\r\nlet View_4 = view () { print strcat(\"$\",tostring(phonecost)),\"SMS/Voice cost (USD)\" };\r\nlet View_5 = view () { print strcat(\"$\",tostring(totalcost)),\"Total cost (USD)\" };\r\nunion withsource=TableName View_1, View_2, View_3, View_4, View_5\r\n\r\n",
         "size": 3,
         "showAnalytics": true,
         "title": "Estimate of last month's guest activity",
@@ -214,7 +234,7 @@ A log analytics workbook that will help admins estimate the B2B guest MAU as wel
             "type": 3,
             "content": {
               "version": "KqlItem/1.0",
-              "query": "SigninLogs\r\n| where UserType == \"Guest\"\r\n| extend MonthGenerated = startofmonth(TimeGenerated)\r\n| project MonthGenerated,UserId\r\n| distinct UserId,MonthGenerated\r\n| make-series distinctUserCount=count() default=0 on MonthGenerated from (startofmonth({Time:start})) to (startofmonth(now()) - 1h) step 1d\r\n| mv-expand distinctUserCount to typeof(int), MonthGenerated to typeof(datetime)\r\n| project distinctUserCount, MonthGenerated\r\n| summarize Value=sum(distinctUserCount) by dateStr=format_datetime(startofmonth(MonthGenerated), 'MM/yyyy')\r\n",
+              "query": "SigninLogs\r\n| where CrossTenantAccessType in (\"b2bCollaboration\",\"directconnect\",\"passthrough\")\r\n| extend MonthGenerated = startofmonth(TimeGenerated)\r\n| project MonthGenerated,UserId\r\n| distinct UserId,MonthGenerated\r\n| make-series distinctUserCount=count() default=0 on MonthGenerated from (startofmonth({Time:start})) to (startofmonth(now()) - 1h) step 1d\r\n| mv-expand distinctUserCount to typeof(int), MonthGenerated to typeof(datetime)\r\n| project distinctUserCount, MonthGenerated\r\n| summarize Value=sum(distinctUserCount) by dateStr=format_datetime(startofmonth(MonthGenerated), 'MM/yyyy')\r\n",
               "size": 0,
               "showAnalytics": true,
               "title": "Guest Monthly Active Users trends",
@@ -238,7 +258,7 @@ A log analytics workbook that will help admins estimate the B2B guest MAU as wel
             "type": 3,
             "content": {
               "version": "KqlItem/1.0",
-              "query": "SigninLogs\r\n| where UserType == \"Guest\"\r\n| extend MonthGenerated = startofmonth(TimeGenerated)\r\n| project MonthGenerated,UserId\r\n| distinct UserId,MonthGenerated\r\n| make-series distinctUserCount=count() default=0 on MonthGenerated from (startofmonth({Time:start})) to (startofmonth(now()) - 1h) step 1d\r\n| mv-expand distinctUserCount to typeof(int), MonthGenerated to typeof(datetime)\r\n| project distinctUserCount, MonthGenerated\r\n| summarize MAU=sum(distinctUserCount) by Month=format_datetime(startofmonth(MonthGenerated), 'MM/yyyy')\r\n",
+              "query": "SigninLogs\r\n| where CrossTenantAccessType in (\"b2bCollaboration\",\"directconnect\",\"passthrough\")\r\n| extend MonthGenerated = startofmonth(TimeGenerated)\r\n| project MonthGenerated,UserId\r\n| distinct UserId,MonthGenerated\r\n| make-series distinctUserCount=count() default=0 on MonthGenerated from (startofmonth({Time:start})) to (startofmonth(now()) - 1h) step 1d\r\n| mv-expand distinctUserCount to typeof(int), MonthGenerated to typeof(datetime)\r\n| project distinctUserCount, MonthGenerated\r\n| summarize MAU=sum(distinctUserCount) by Month=format_datetime(startofmonth(MonthGenerated), 'yyyy/MM')\r\n| order by Month desc\r\n",
               "size": 0,
               "timeContextFromParameter": "Time",
               "queryType": 0,
@@ -277,7 +297,7 @@ A log analytics workbook that will help admins estimate the B2B guest MAU as wel
             "type": 3,
             "content": {
               "version": "KqlItem/1.0",
-              "query": "SigninLogs\r\n| where UserType == \"Guest\"\r\n| where AuthenticationRequirement contains \"multifactor\"\r\n| mv-expand ParsedFields=parse_json(AuthenticationDetails)\r\n    |extend AuthenticationMethod = ParsedFields.authenticationMethod\r\n    |extend AuthMethod = tostring(AuthenticationMethod)\r\n| where AuthMethod in ({AuthMethod}) or '*' in ({AuthMethod})\r\n| where \"{Username:escape}\" == \"All users\" or UserDisplayName contains \"{Username:escape}\"\r\n| extend MonthGenerated = startofmonth(TimeGenerated)\r\n| project AuthMethod, MonthGenerated, CorrelationId\r\n| distinct AuthMethod, MonthGenerated, CorrelationId\r\n| make-series TelephonyCount=count() default=0 on MonthGenerated from (startofmonth({Time:start})) to (startofmonth(now()) - 1h) step 1d\r\n| mv-expand TelephonyCount to typeof(int), MonthGenerated to typeof(datetime)\r\n| extend Grouping = \"All\" //Only used for connecting the dots in the line graph visualization\r\n| summarize Telephony=sum(TelephonyCount) by dateStr=format_datetime(startofmonth(MonthGenerated), 'MM/yyyy'), Grouping\r\n",
+              "query": "SigninLogs\r\n| where CrossTenantAccessType in (\"b2bCollaboration\",\"directconnect\",\"passthrough\")\r\n| where AuthenticationRequirement contains \"multifactor\"\r\n| mv-expand ParsedFields=parse_json(AuthenticationDetails)\r\n    |extend AuthenticationMethod = ParsedFields.authenticationMethod\r\n    |extend AuthMethod = tostring(AuthenticationMethod)\r\n| where AuthMethod in ({AuthMethod}) or '*' in ({AuthMethod})\r\n| where \"{Username:escape}\" == \"All users\" or UserDisplayName contains \"{Username:escape}\"\r\n| extend MonthGenerated = startofmonth(TimeGenerated)\r\n| project AuthMethod, MonthGenerated, CorrelationId\r\n| distinct AuthMethod, MonthGenerated, CorrelationId\r\n| make-series TelephonyCount=count() default=0 on MonthGenerated from (startofmonth({Time:start})) to (startofmonth(now()) - 1h) step 1d\r\n| mv-expand TelephonyCount to typeof(int), MonthGenerated to typeof(datetime)\r\n| extend Grouping = \"All\" //Only used for connecting the dots in the line graph visualization\r\n| summarize Telephony=sum(TelephonyCount) by dateStr=format_datetime(startofmonth(MonthGenerated), 'MM/yyyy'), Grouping\r\n",
               "size": 0,
               "showAnalytics": true,
               "title": "Guest SMS/Voice usage",
@@ -310,7 +330,7 @@ A log analytics workbook that will help admins estimate the B2B guest MAU as wel
             "type": 3,
             "content": {
               "version": "KqlItem/1.0",
-              "query": "SigninLogs\r\n| where UserType == \"Guest\"\r\n| where AuthenticationRequirement contains \"multifactor\"\r\n| mv-expand ParsedFields=parse_json(AuthenticationDetails)\r\n    |extend AuthenticationMethod = ParsedFields.authenticationMethod\r\n    |extend AuthMethod = tostring(AuthenticationMethod)\r\n| where AuthMethod in ({AuthMethod}) or '*' in ({AuthMethod})\r\n| where \"{Username:escape}\" == \"All users\" or UserDisplayName contains \"{Username:escape}\"\r\n| extend MonthGenerated = startofmonth(TimeGenerated)\r\n| project AuthMethod, MonthGenerated, CorrelationId\r\n| distinct AuthMethod, MonthGenerated, CorrelationId\r\n| make-series TelephonyCount=count() default=0 on MonthGenerated from (startofmonth({Time:start})) to (startofmonth(now()) - 1h) step 1d\r\n| mv-expand TelephonyCount to typeof(int), MonthGenerated to typeof(datetime)\r\n| summarize Telephony=sum(TelephonyCount) by Month=format_datetime(startofmonth(MonthGenerated), 'MM/yyyy')",
+              "query": "SigninLogs\r\n| where CrossTenantAccessType in (\"b2bCollaboration\",\"directconnect\",\"passthrough\")\r\n| where AuthenticationRequirement contains \"multifactor\"\r\n| mv-expand ParsedFields=parse_json(AuthenticationDetails)\r\n    |extend AuthenticationMethod = ParsedFields.authenticationMethod\r\n    |extend AuthMethod = tostring(AuthenticationMethod)\r\n| where AuthMethod in ({AuthMethod}) or '*' in ({AuthMethod})\r\n| where \"{Username:escape}\" == \"All users\" or UserDisplayName contains \"{Username:escape}\"\r\n| extend MonthGenerated = startofmonth(TimeGenerated)\r\n| project AuthMethod, MonthGenerated, CorrelationId\r\n| distinct AuthMethod, MonthGenerated, CorrelationId\r\n| make-series TelephonyCount=count() default=0 on MonthGenerated from (startofmonth({Time:start})) to (startofmonth(now()) - 1h) step 1d\r\n| mv-expand TelephonyCount to typeof(int), MonthGenerated to typeof(datetime)\r\n| summarize Telephony=sum(TelephonyCount) by Month=format_datetime(startofmonth(MonthGenerated), 'yyyy/MM')\r\n| order by Month desc",
               "size": 0,
               "timeContextFromParameter": "Time",
               "queryType": 0,
